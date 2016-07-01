@@ -33,11 +33,17 @@ setup(
     install_requires=['citeproc-py'],
     package_data={
         'md2docx': ['VERSION',
+                    'var/docx',
+                    'var/docx/docProps/*',
+                    'var/docx/_rels/*',
+                    'var/docx/word/*',
+                    'var/docx/word/_rels/*',
+                    'var/docx/word/theme/*',
                     ],
     },
     entry_points={
         'console_scripts': [
-            'md2docx_data=md2docx.md2docx:main',
+            'md2docx=md2docx.main:main',
         ],
     },
 )

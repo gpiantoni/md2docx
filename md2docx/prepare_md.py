@@ -38,8 +38,14 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
     - references (OK)
     - acronyms (OK)
     - authors
-    - figures: TODO follow order of text
-    - tables: TODO follow order of text
+
+    TODO
+    ----
+    figures should follow order of text
+
+    TODO
+    ----
+    tables should follow order of text
     """
     md_path = article_dir / SRC_DIR / md_file
     if not md_path.exists():
