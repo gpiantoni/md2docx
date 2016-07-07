@@ -36,7 +36,6 @@ extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
-    'sphinx.ext.mathjax',
 ]
 
 # autodoc options
@@ -46,9 +45,6 @@ autodoc_default_flags = ['inherited-members']
 # Napoleon settings
 napoleon_include_private_with_doc = False
 napoleon_include_special_with_doc = True
-
-# mathjax settings
-mathjax_path = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML'
 
 # todo settings
 todo_include_todos = True

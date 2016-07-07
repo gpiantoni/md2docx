@@ -2,7 +2,7 @@ from docx import Document
 from re import split, findall, sub
 from shutil import make_archive, move
 
-from .journal import Journal, JOURNALS_PATH
+from .journal import Journal
 
 
 REF_DOCX = 'reference.docx'

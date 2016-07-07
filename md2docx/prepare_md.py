@@ -1,3 +1,5 @@
+"""Work on markdown file and rearrange it if necessary
+"""
 from copy import deepcopy
 from json import load, dump
 from os import devnull
@@ -21,23 +23,16 @@ def warn(citation_item):
     print("WARNING: Reference '{}' not found in the bibliography."
           .format(citation_item.key))
 
-"""
-bib_file = '/home/gio/Documents/articles/var/library.bib'
-bib_orig_file = '/home/gio/Documents/articles/var/orig/library.bib'
-csl_file = '/home/gio/Documents/articles/var/csl/the-journal-of-neuroscience.csl'
-out_dir = '/home/gio/Documents/articles/tmp'
-img_dir = '/home/gio/Documents/articles/article_neckersd/img'
-"""
-
 BIBLIO_TITLE = '## References'
 DPI = 300
 
 
 def preproc_md(article_dir, tmp_dir, md_file, args):
     """Fix
-    - references (OK)
-    - acronyms (OK)
-    - authors
+
+        - references (OK)
+        - acronyms (OK)
+        - authors
 
     TODO
     ----
@@ -66,7 +61,7 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
     md = _make_acronyms(md, args.acronyms)
 
     print('')
-    md = include_figures(article_dir, md, is_main)  # TODO: md_file only stem
+    md = include_figures(article_dir, md, is_main)
 
     md = add_references(md, args)
 
@@ -144,9 +139,14 @@ def organize_md(md, j, is_main):
 
 
 def include_figures(article_dir, s, is_main):
-    """TODO: this should depend on order in text, but then rearrange them at the end.
-            if args.journal == 'PNAS':
+    """
+    TODO
+    ----
+    this should depend on order in text, but then rearrange them at the end.
+
+        if args.journal == 'PNAS':
             s = sub('### (?!Figure \[\+)(.*)', '**\g<1>**', s)
+
     """
     img_dir = article_dir / IMG_DIR
     out_dir = article_dir / OUT_DIR

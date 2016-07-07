@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 from argparse import ArgumentParser
+from os import getcwd
 from pathlib import Path
 from shutil import rmtree
 
@@ -9,8 +10,10 @@ from .prepare_docx import convert_to_docx, zip_reference_docx
 from .prepare_bib import fix_biblio, return_csl
 
 
-root_dir = Path(__file__).resolve().parents[1]
-var_dir = root_dir / 'var'
+cwd = Path(getcwd())
+
+pkg_dir = Path(__file__).resolve().parent
+var_dir = pkg_dir / 'var'
 orig_bib_file = var_dir / 'bib' / 'library.bib'
 ref_dir = var_dir / 'docx'
 journals_dir = var_dir / 'journals'
@@ -20,7 +23,12 @@ GRANTS = [x.stem for x in grants_dir.glob('*.json')]
 
 
 def main():
+    """
 
+    TODO
+    ----
+    prepare_bib
+    """
     parser = ArgumentParser(prog='md2docx',
                             description='Convert Markdown to Office DOCX')
     parser.add_argument('-p', '--proj', required=True,
@@ -57,16 +65,14 @@ def main():
         FOLDER_PREFIX = 'grant'
 
     args.article = FOLDER_PREFIX + '_' + args.proj
-    article_dir = root_dir / args.article
+    article_dir = cwd / args.article
     out_dir = article_dir / 'output'
     out_dir.mkdir(exist_ok=True)
 
     args.library = fix_biblio(Path(args.library))
     # copy files
 
-    tmp_dir = root_dir / 'tmp'
-
-    # TODO: prepare_bib
+    tmp_dir = article_dir / 'tmp'
 
     if not args.only_docx:
         # remove tmp directory if we run prepare_md again
