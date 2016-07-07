@@ -1,0 +1,95 @@
+{
+    "meta": {
+        "name": "JNeurosci",
+        "version": 1.0,
+        "created": "???"
+        },
+    "citations": {
+        "csl": "the-journal-of-neuroscience.csl",
+        "changes": {}
+        },
+    "sections": [
+        {"name": "Acknowledgements",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Conflict of Interest",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Abstract",
+         "mandatory": true,
+         "newpage": true
+            },
+        {"name": "Keywords",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Significance Statement",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Introduction",
+         "mandatory": true,
+         "newpage": true
+            },
+        {"name": "Materials and Methods",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Results",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Discussion",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "References",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Figures",
+         "mandatory": false,
+         "newpage": true
+            },
+        {"name": "Tables",
+         "mandatory": false,
+         "newpage": true
+            }
+        ],
+    "wordcount": [
+        {"sections": [
+            "Abstract"
+            ],
+         "limit": {
+            "number": 250,
+            "type": "word"
+                }
+            },
+        {"sections": [
+            "Significance Statement"
+            ],
+         "limit": {
+            "number": 120,
+            "type": "word"
+                }
+            },
+        {"sections": [
+            "Introduction"
+            ],
+         "limit": {
+            "number": 650,
+            "type": "word"
+                }
+            },
+        {"sections": [
+            "Discussion"
+            ],
+         "limit": {
+            "number": 1500,
+            "type": "word"
+                }
+            }
+        ]
+    }
