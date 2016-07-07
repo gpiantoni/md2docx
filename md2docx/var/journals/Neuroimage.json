@@ -1,0 +1,83 @@
+{
+    "meta": {
+        "name": "Neuroimage",
+        "version": 1.0,
+        "created": "???"
+        },
+    "citations": {
+        "csl": "elsevier-harvard.csl",
+        "changes": {}
+        },
+    "sections": [
+        {"name": "Abstract",
+         "mandatory": true,
+         "newpage": true
+            },
+        {"name": "Keywords",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Highlights",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Abbreviations",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Introduction",
+         "mandatory": true,
+         "newpage": true
+            },
+        {"name": "Materials and Methods",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Results",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Discussion",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Acknowledgments",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Conflict of Interest",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "References",
+         "mandatory": true,
+         "newpage": true
+            },
+        {"name": "Figures",
+         "mandatory": false,
+         "newpage": true
+            },
+        {"name": "Tables",
+         "mandatory": false,
+         "newpage": true
+            }
+        ],
+    "wordcount": [
+        {"sections": [
+            "Abstract"
+            ],
+         "limit": {
+            "number" : 250,
+            "type": "word"
+                }
+            },
+        {"sections": [
+            "Keywords"
+            ],
+         "limit": {
+            "number" : 6,
+            "type": "word"
+                }
+            }
+        ]
+    }

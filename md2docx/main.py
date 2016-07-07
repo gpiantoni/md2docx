@@ -27,7 +27,7 @@ def main():
 
     TODO
     ----
-    prepare_bib
+    make journal_json mutually exclusive with journal in arguments
     """
     parser = ArgumentParser(prog='md2docx',
                             description='Convert Markdown to Office DOCX')
@@ -35,6 +35,8 @@ def main():
                         help='project code')
     parser.add_argument('-j', '--journal',
                         help='journal name (' + ', '.join(JOURNALS) + ')')
+    parser.add_argument('--journal_json',
+                        help='specify full path to custom journal .json file')
     parser.add_argument('-g', '--grant',
                         help='grant type (' + ', '.join(GRANTS) + ')')
     parser.add_argument('--library', default=str(orig_bib_file),
@@ -58,10 +60,10 @@ def main():
     MD_FILES = ('main.md', 'review.md', 'editor.md')
 
     if args.journal:
-        print('journal')
         FOLDER_PREFIX = 'article'
+        if not args.journal_json:
+            args.journal_json = journals_dir / (args.journal + '.json')
     else:
-        print('grant')
         FOLDER_PREFIX = 'grant'
 
     args.article = FOLDER_PREFIX + '_' + args.proj

@@ -32,7 +32,9 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
 
         - references (OK)
         - acronyms (OK)
-        - authors
+    TODO
+    ----
+    automatic affiliations for authors
 
     TODO
     ----
@@ -53,7 +55,7 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
     with md_path.open() as f:
         md = f.read()
 
-    j = Journal(args.journal)
+    j = Journal(args.journal_json)
 
     # reorder, because this affects references, acronyms and figure/table order
     md = organize_md(md, j, is_main)

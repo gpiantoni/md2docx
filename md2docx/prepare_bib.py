@@ -17,7 +17,7 @@ FIELDS = {'address',
           'year',
           'isbn',
           'issn',
-         }
+          }
 
 
 LATEX_SYMBOLS = {'$\\alpha$': 'α',
