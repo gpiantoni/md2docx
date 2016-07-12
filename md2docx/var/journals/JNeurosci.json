@@ -9,11 +9,15 @@
         "changes": {}
         },
     "sections": [
-        {"name": "Acknowledgements",
+        {"name": "Word Limits",
          "mandatory": true,
          "newpage": false
             },
         {"name": "Conflict of Interest",
+         "mandatory": true,
+         "newpage": false
+            },
+        {"name": "Acknowledgements",
          "mandatory": true,
          "newpage": false
             },
