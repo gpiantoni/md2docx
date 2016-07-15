@@ -4,10 +4,12 @@ from argparse import ArgumentParser
 from os import getcwd
 from pathlib import Path
 from shutil import rmtree
+from subprocess import run
 
 from .prepare_md import preproc_md
 from .prepare_docx import convert_to_docx, zip_reference_docx
 from .prepare_bib import fix_biblio, return_csl
+from .journal import Journal
 
 
 cwd = Path(getcwd())
@@ -47,6 +49,8 @@ def main():
                         help='path to docx used as reference (default: %(default)s)')
     parser.add_argument('--acronyms', default=str(var_dir / 'acronyms.txt'),
                         help='acronyms to use (default: %(default)s)')
+    parser.add_argument('--embed', action='store_true',
+                        help='will embed png in the docx')
     parser.add_argument('--only_md', action='store_true',
                         help='prepare only the intermediate md (for debugging)')
     parser.add_argument('--only_docx', action='store_true',
@@ -91,26 +95,10 @@ def main():
         for md_file in MD_FILES:
             convert_to_docx(out_dir, tmp_dir, md_file, args)
 
-    """
-
-    parser.add_argument('--embed', action='store_true',
-                        help='will embed png in the docx')
-
-    # copy docx to output dir
-    for md_file in MD_FILES:
-        filetype = splitext(md_file)[0]
-        tmp_docx = join(tmp_dir, filetype + '.docx')
-        if exists(tmp_docx):
-            final_docx = join(out_dir, args.proj + '_' + filetype + '.docx')
-            copyfile(tmp_docx, final_docx)
-
     # convert to tiff if necessary
-    if args.journal in ('CerebCortex', 'HumBrainMapp', 'JNeurosci', 'PNAS'):
-        for one_png in glob(join(out_dir, '*.png')):
-            one_tiff = splitext(one_png)[0] + '.tiff'
-            call('convert ' + one_png + ' ' + one_tiff, shell=True)
-            remove(one_png)
-
-
-
-    """
+    j = Journal(args.journal_json)
+    if j.figure_format() == 'tiff':
+        for one_png in out_dir.glob('*.png'):
+            one_tiff = one_png.with_suffix('.tiff')
+            run(['convert', str(one_png), str(one_tiff)])
+            one_png.unlink()

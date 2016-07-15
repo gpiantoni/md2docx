@@ -51,3 +51,23 @@ class Journal:
                 return x['newpage']
 
         raise KeyError('Could not find ' + section_name)
+
+    def embed_figures(self):
+        """check if figures need to be in the manuscript or not by default
+
+        Returns
+        -------
+        bool
+            if figures need to be embedded or not
+        """
+        return self.json['figures']['embed']
+
+    def figure_format(self):
+        """format of the figure, if not embedded
+
+        Returns
+        -------
+        str
+            one of formats: "tiff",
+        """
+        return self.json['figures']['format']

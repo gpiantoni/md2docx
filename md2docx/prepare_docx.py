@@ -14,7 +14,7 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
     if not md_path.exists():
         return
 
-    j = Journal(args.journal)
+    j = Journal(args.journal_json)
 
     document = Document(str(args.ref_docx))
 

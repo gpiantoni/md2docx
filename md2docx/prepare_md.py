@@ -32,6 +32,13 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
 
         - references (OK)
         - acronyms (OK)
+
+    Notes
+    -----
+    if figures should be embedded. Figures are embedded if 1) the journal
+    requires it, 2) you pass the 'embed' option, 3) it's the
+    reply-to-reviewer
+
     TODO
     ----
     automatic affiliations for authors
@@ -63,7 +70,7 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
     md = _make_acronyms(md, args.acronyms)
 
     print('')
-    md = include_figures(article_dir, md, is_main)
+    md = include_figures(article_dir, md, j, args, is_main)
 
     md = add_references(md, args)
 
@@ -140,23 +147,45 @@ def organize_md(md, j, is_main):
     return ''.join(md)
 
 
-def include_figures(article_dir, s, is_main):
-    """
+def include_figures(article_dir, s, j, args, is_main):
+    """Include a link to figures in the manuscript
+
+    Parameters
+    ----------
+    article_dir : path
+        path to directory
+    s : str
+        text of the manuscript
+    j : instance of Journal
+        information about the journal
+    args : arguments
+        arguments to the function
+    is_main : bool
+        if the manuscript is the main manuscript or not
+
+    Returns
+    -------
+    s : str
+        text of the manuscript
+
     TODO
     ----
     this should depend on order in text, but then rearrange them at the end.
 
         if args.journal == 'PNAS':
             s = sub('### (?!Figure \[\+)(.*)', '**\g<1>**', s)
-
     """
     img_dir = article_dir / IMG_DIR
     out_dir = article_dir / OUT_DIR
 
-    # if args.embed or not is_main:  # TODO
-    s = sub('### Figure (\[\+[\w]*\])',
-            '\g<0>\n![](' + str(out_dir / 'figure_\g<1>.png') + ')\n',
-            s)
+    if j.embed_figures() or args.embed or not is_main:
+        s = sub('### Figure (\[\+[\w]*\])',
+                '\g<0>\n![](' + str(out_dir / 'figure_\g<1>.png') + ')\n',
+                s)
+    else:
+        s = sub('### Figure (\[\+[\w]*\])',
+                '\g<0>\n',
+                s)
 
     # ADD INDICES FOR FIGURES AND TABLES
     s, figure_name = _make_index(s, is_main)
@@ -243,6 +272,8 @@ def _svg2png(figure_name, img_dir, out_dir):
     -----
     CerebCortex: max with = 86mm, 180mm
     JNeurosci: max width = 85mm, 116mm, 176mm
+
+    relies on inkscape being installed
     """
     inkscape_cmd = '('
 
