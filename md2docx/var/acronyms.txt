@@ -45,6 +45,7 @@
     "MVAR": "Multivariate Autoregressive",
     "NE": "norepinephrine",
     "NREM": "non-rapid eye movement",
+    "PAC": "phase-amplitude coupling",
     "PCA": "principal component analysis",
     "PET": "positron emission tomography", 
     "PPC": "power-power correlation",

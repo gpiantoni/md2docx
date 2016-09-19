@@ -1,67 +1,67 @@
 {
-    "meta": {
-        "name": "CerebCortex",
-        "version": 1.2,
-        "created": "???"
-        },
-    "citations": {
-        "csl": "cerebral-cortex.csl",
-        "changes": {}
-        },
-    "figures": {
+ "meta": {
+	"name": "CerebCortex",
+	"version": 1.2,
+	"created": "???"
+ },
+ "citations": {
+	"csl": "cerebral-cortex.csl",
+	"changes": {}
+ },
+ "figures": {
 	"embed": false,
 	"format": "tiff"
-    	},
-    "sections": [
-        {"name": "Abstract",
-         "mandatory": true,
-         "newpage": true
-            },
-        {"name": "Keywords",
-         "mandatory": true,
-         "newpage": false
-            },
-        {"name": "Introduction",
-         "mandatory": true,
-         "newpage": true
-            },
-        {"name": "Materials and Methods",
-         "mandatory": true,
-         "newpage": false
-            },
-        {"name": "Results",
-         "mandatory": true,
-         "newpage": false
-            },
-        {"name": "Discussion",
-         "mandatory": true,
-         "newpage": false
-            },
-        {"name": "Acknowledgements",
-         "mandatory": true,
-         "newpage": false
-            },
-        {"name": "References",
-         "mandatory": true,
-         "newpage": false
-            },
-        {"name": "Figures",
-         "mandatory": false,
-         "newpage": true
-            },
-        {"name": "Tables",
-         "mandatory": false,
-         "newpage": true
-            }
-        ],
-    "wordcount": [
-        {"sections": [
-            "Abstract"
-            ],
-         "limit": {
-            "number": 200,
-            "type": "word"
-                }
-            }
-        ]
-    }
+ },
+ "sections": [
+	{"name": "Abstract",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Keywords",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Introduction",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Materials and Methods",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Results",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Discussion",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Acknowledgements",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "References",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Figures",
+	 "mandatory": false,
+	 "newpage": true
+	},
+	{"name": "Tables",
+	 "mandatory": false,
+	 "newpage": true
+	}
+ ],
+ "wordcount": [
+	{"sections": [
+	 "Abstract"
+	],
+	"limit": {
+	 "number": 200,
+	 "type": "word"
+	}
+	}
+ ]
+}
