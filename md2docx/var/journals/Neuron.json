@@ -1,0 +1,59 @@
+{
+ "meta": {
+	"name": "Neuron",
+	"version": 1.2,
+	"created": "???"
+ },
+ "citations": {
+	"csl": "elsevier-harvard.csl",
+	"changes": {}
+ },
+ "figures": {
+	"embed": true,
+	"format": "tiff"
+ },
+ "sections": [
+	{"name": "Abstract",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Introduction",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Results",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Discussion",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Materials and Methods",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "References",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Figures",
+	 "mandatory": false,
+	 "newpage": true
+	},
+	{"name": "Tables",
+	 "mandatory": false,
+	 "newpage": true
+	}
+ ],
+ "wordcount": [
+	{"sections": [
+	 "Abstract"
+	],
+	"limit": {
+	 "number": 150,
+	 "type": "word"
+	}
+	}
+ ]
+}
