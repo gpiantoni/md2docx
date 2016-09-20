@@ -62,7 +62,7 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
                 if p is None:
                     if md.startswith('>'):
                         style = 'Reviewer'
-                        md = md[1:]  # remove > at the beginning
+                        md = md[2:]  # remove "> " at the beginning
                     else:
                         style = None
                     p = document.add_paragraph(style=style)

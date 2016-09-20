@@ -28,10 +28,7 @@ DPI = 300
 
 
 def preproc_md(article_dir, tmp_dir, md_file, args):
-    """Fix
-
-        - references (OK)
-        - acronyms (OK)
+    """
 
     Notes
     -----
@@ -65,7 +62,8 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
     j = Journal(args.journal_json)
 
     # reorder, because this affects references, acronyms and figure/table order
-    md = organize_md(md, j, is_main)
+    if is_main:
+        md = organize_md(md, j)
 
     md = _make_acronyms(md, args.acronyms)
 
@@ -130,7 +128,7 @@ def _read_section_by_section(md):
     return md_title, md_sections
 
 
-def organize_md(md, j, is_main):
+def organize_md(md, j):
     md_title, md_sections = _read_section_by_section(md)
 
     md = [md_title, ]
@@ -138,10 +136,10 @@ def organize_md(md, j, is_main):
         try:
             md.append('\n## ' + sect + '\n' + md_sections.pop(sect))
         except KeyError:
-            if j.is_necessary(sect) and is_main:
+            if j.is_necessary(sect):
                 print('missing section ' + sect)
 
-    if md_sections and is_main:
+    if md_sections:
         print('unused sections: ' + ', '.join(list(md_sections)))
 
     return ''.join(md)
