@@ -76,8 +76,8 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
 
 def _add_run(p, md):
 
-    runs = split('(?<!\\\)[\*|\*\*|_|\^|~]', md)
-    values = findall('(?<!\\\)[\*|\*\*|_|\^|~]', md)
+    runs = split('(?<!\\\)[%|\*|_|\^|~]', md)
+    values = findall('(?<!\\\)[%|\*|_|\^|~]', md)
     values.append('')
 
     italics = False
@@ -89,7 +89,7 @@ def _add_run(p, md):
     for one_run, one_value in zip(runs, values):
 
         # remove slash for \*, \~, \^
-        one_run = sub('\\\([~\*\^])', '\g<1>', one_run)
+        one_run = sub('\\\([%~\*\^])', '\g<1>', one_run)
 
         r = p.add_run(one_run)
 
@@ -104,7 +104,7 @@ def _add_run(p, md):
         if subscript:
             r.font.subscript = True
 
-        if one_value == '**':
+        if one_value == '%':
             bold = ~bold
         if one_value == '*':
             italics = ~italics

@@ -420,8 +420,7 @@ def _get_main_ref(tmp_dir):
     for key in set(findall('@\[[0-9a-z.]+\]', main_s)):
         l = ' [...]\n'.join(main_s.split(key)[1::2])
         # remove italics already in the string (but not boldface)
-        l = sub('\*(.+?)\*', '\g<1>', l.replace('**', 'XX')).replace('XX',
-                                                                     '**')
+        l = sub('\*(.+?)\*', '\g<1>', l)
         # corner case, when one key is in the text of another key
         review_sub[key] = sub('@\[[0-9a-z.]+\]', '', l)
 
@@ -434,7 +433,7 @@ def _get_main_ref(tmp_dir):
 
     # remove markers used for review (and bold which is used only to highlight)
     main_s = sub('@\[[0-9a-z.]+\]', '', main_s)
-    main_s = main_s.replace('**', '')
+    main_s = main_s.replace('%', '')
 
     with md_path.open('w') as w:
         w.write(main_s)  # write the whole file
