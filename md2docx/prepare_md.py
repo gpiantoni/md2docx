@@ -433,7 +433,7 @@ def _get_main_ref(tmp_dir):
 
     # remove markers used for review (and bold which is used only to highlight)
     main_s = sub('@\[[0-9a-z.]+\]', '', main_s)
-    main_s = main_s.replace('%', '')
+    main_s = sub(r'(?<!\\)%', '', main_s)
 
     with md_path.open('w') as w:
         w.write(main_s)  # write the whole file
