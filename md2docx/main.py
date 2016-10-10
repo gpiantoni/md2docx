@@ -7,7 +7,7 @@ from shutil import rmtree
 from subprocess import run
 
 from .prepare_md import preproc_md
-from .prepare_docx import convert_to_docx, zip_reference_docx
+from .prepare_docx import convert_to_docx
 from .prepare_bib import fix_biblio, return_csl
 from .journal import Journal
 
@@ -18,6 +18,7 @@ pkg_dir = Path(__file__).resolve().parent
 var_dir = pkg_dir / 'var'
 orig_bib_file = var_dir / 'bib' / 'library.bib'
 ref_dir = var_dir / 'docx'
+REF_DOCX = ref_dir / 'reference.docx'
 journals_dir = var_dir / 'journals'
 JOURNALS = [x.stem for x in journals_dir.glob('*.json')]
 grants_dir = var_dir / 'grants'
@@ -45,7 +46,7 @@ def main():
                         help='bib library to use (default: %(default)s)')
     parser.add_argument('--csl',
                         help='path to csl file (default depends on journal)')
-    parser.add_argument('--ref_docx', default=zip_reference_docx(ref_dir),
+    parser.add_argument('--ref_docx', default=REF_DOCX,
                         help='path to docx used as reference (default: %(default)s)')
     parser.add_argument('--acronyms', default=str(var_dir / 'acronyms.txt'),
                         help='acronyms to use (default: %(default)s)')

@@ -1,6 +1,5 @@
 from docx import Document
 from re import split, findall, sub
-from shutil import make_archive, move
 
 from .journal import Journal
 
@@ -113,28 +112,3 @@ def _add_run(p, md):
         if one_value == '~':
             subscript = ~subscript
 
-
-def zip_reference_docx(docx_dir):
-    """Create a docx file (which is a zipped file)
-
-    Parameters
-    ----------
-    docx_dir : path to dir
-        directory with the files to zip
-
-    Returns
-    -------
-    path to file
-         zipped docx file
-    """
-    ref_docx = docx_dir / REF_DOCX
-
-    try:
-        ref_docx.unlink()
-    except FileNotFoundError:
-        pass
-
-    zip_file = make_archive(str(ref_docx.with_suffix('')), 'zip', str(docx_dir))
-    move(zip_file, str(ref_docx))
-
-    return ref_docx
