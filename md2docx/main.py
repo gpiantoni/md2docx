@@ -21,8 +21,6 @@ ref_dir = var_dir / 'docx'
 REF_DOCX = ref_dir / 'reference.docx'
 journals_dir = var_dir / 'journals'
 JOURNALS = [x.stem for x in journals_dir.glob('*.json')]
-grants_dir = var_dir / 'grants'
-GRANTS = [x.stem for x in grants_dir.glob('*.json')]
 
 
 def main():
@@ -40,8 +38,6 @@ def main():
                         help='journal name (' + ', '.join(JOURNALS) + ')')
     parser.add_argument('--journal_json',
                         help='specify full path to custom journal .json file')
-    parser.add_argument('-g', '--grant',
-                        help='grant type (' + ', '.join(GRANTS) + ')')
     parser.add_argument('--library', default=str(orig_bib_file),
                         help='bib library to use (default: %(default)s)')
     parser.add_argument('--csl',

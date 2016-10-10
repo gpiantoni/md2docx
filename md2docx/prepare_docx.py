@@ -4,8 +4,6 @@ from re import split, findall, sub
 from .journal import Journal
 
 
-REF_DOCX = 'reference.docx'
-
 
 def convert_to_docx(output_dir, tmp_dir, md_file, args):
 
@@ -111,4 +109,3 @@ def _add_run(p, md):
             superscript = ~superscript
         if one_value == '~':
             subscript = ~subscript
-
