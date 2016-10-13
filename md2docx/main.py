@@ -99,3 +99,13 @@ def main():
             one_tiff = one_png.with_suffix('.tiff')
             run(['convert', str(one_png), str(one_tiff)])
             one_png.unlink()
+
+
+def fixbib():
+    parser = ArgumentParser(prog='md2docx',
+                            description='Convert Markdown to Office DOCX')
+    parser.add_argument('--library', default=str(orig_bib_file),
+                        help='bib library to use (default: %(default)s)')
+    args = parser.parse_args()
+
+    fix_biblio(Path(args.library))

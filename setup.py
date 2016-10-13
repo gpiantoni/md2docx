@@ -48,6 +48,7 @@ setup(
     entry_points={
         'console_scripts': [
             'md2docx=md2docx.main:main',
+            'fixbib=md2docx.main:fixbib',
         ],
     },
 )
