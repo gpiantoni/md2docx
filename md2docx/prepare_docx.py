@@ -33,10 +33,14 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
                 document.add_heading(md[3:], 1)
 
             elif md.startswith('### '):
+                cond0 = j.embed_figures() or args.embed
+                cond1 = md.startswith('### Figure ') and not md == '### Figure 1'
+                if cond0 and cond1:
+                    document.add_page_break()
                 document.add_heading(md[4:], 2)
 
             elif md.startswith('![]('):
-                path_to_img = md[4:-1]  # TODO: clearner way to select path
+                path_to_img = md[4:-1]  # TODO: cleaner way to select path
                 document.add_picture(path_to_img)
 
             elif len(md) > 0 and md[0] == '^' and md[-1] == '^':  # table header (TODO: how to modify format)
