@@ -3,13 +3,9 @@
 from copy import deepcopy
 from json import load, dump
 from os import devnull
+from pathlib import Path
 from re import sub, search, findall, finditer, split
-from subprocess import call
-
-from citeproc.source.bibtex import BibTeX
-from citeproc import CitationStylesStyle, CitationStylesBibliography
-from citeproc import formatter
-from citeproc import Citation, CitationItem
+from subprocess import run
 
 from .journal import Journal
 
@@ -70,7 +66,7 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
     print('')
     md = include_figures(article_dir, md, j, args, is_main)
 
-    md = add_references(md, args)
+    md = add_references(md, tmp_dir, args)
 
     if is_main:
         print('')
@@ -290,7 +286,7 @@ def _svg2png(figure_name, img_dir, out_dir):
 
     inkscape_cmd += ') |  inkscape --shell'
     if len(inkscape_cmd) > 22:  # if it has anything to do at all
-        call(inkscape_cmd, stdout=open(devnull, "w"),
+        run(inkscape_cmd, stdout=open(devnull, "w"),
              stderr=open(devnull, "w"), shell=True)
 
 
@@ -309,40 +305,73 @@ def _int_to_roman(i):
     return ''.join(result)
 
 
-def add_references(md, args):
+def add_references(md, tmp_dir, args):
+    """
+    Remember that this function is run for main, review, and editor.
+
     bib_source = BibTeX(str(args.library), 'utf-8')
     bib_style = CitationStylesStyle(str(args.csl), validate=False)
-    bibliography = CitationStylesBibliography(bib_style, bib_source, formatter.plain)
+    """
+    _prepare_node_input(md)
 
-    md_citations = findall('\[([\w \.]*)(@[@\w+0-9; ]+)\]', md)  # linked to to_replace
+    _process_node()
 
-    citations = []
+    md = _read_node_output(md)
 
-    for full_citation in md_citations:
-        prefix, md_citation = full_citation
-        md_citationitems = findall('@(\w+[0-9]+\w+)', md_citation)
+    return md
 
-        citation_items = []
-        for md_citationitem in md_citationitems:
-            citation_items.append(CitationItem(md_citationitem))
-        citation = Citation(citation_items)
-        citations.append(citation)
-        bibliography.register(citation)
 
-    for full_citation, citation in zip(md_citations, citations):
-        prefix, md_citation = full_citation
+def _prepare_node_input(md):
+    md_citations = findall('(\[?@[@\w+0-9; ]+\]?)', md)
 
-        to_replace = '[' + prefix + md_citation + ']'
-        formatted_citation = str(bibliography.cite(citation, warn))
-        formatted_citation = formatted_citation[0] + prefix + formatted_citation[1:]
+    j_citations = []
+    for v in md_citations:
+        items = []
+        for x in v.split(';'):
+            items.append({'id': x.strip('[@] ') })
+        j_cit = {'citationID': v,
+                 'citationItems': items,
+                 'properties': {}}
+        j_citations.append(j_cit)
 
-        md = md.replace(to_replace, formatted_citation, 1)
+    citations_to_do = Path('/home/gio/Documents/articles/tmp/citations.json')
+    with citations_to_do.open('w') as f:
+        dump(j_citations, f, indent=2, sort_keys=True)
+
+
+def _process_node():
+    cmd = ['node', ]
+    cmd += ['processcite.js']
+    cmd += ['/home/gio/Documents/articles/tmp']
+    cmd += ['/home/gio/Documents/articles/package/md2docx/var/bib/library.json']
+    cmd += ['/home/gio/Documents/articles/package/md2docx/var/csl/the-journal-of-neuroscience.csl']
+    cmd += ['/home/gio/Documents/articles/package/md2docx/var/locale']
+
+    run(cmd, cwd='/home/gio/Documents/articles/package/nodejs')
+
+def _read_node_output(md):
+    with open('/home/gio/Documents/articles/tmp/formattedCitations.json', 'r') as f:
+        citations = load(f)
+
+    citation_i= 0
+
+    def sub_citations(matchobj):
+        nonlocal citation_i
+
+        x = citations[citation_i]
+        citation_i += 1
+        return x
+
+    md = sub('(\[?@[@\w+0-9; ]+\]?)', sub_citations, md)
+
+    prefix = '  <div class="csl-entry">'
+    suffix = '</div>\n'
 
     references = [BIBLIO_TITLE, ]
-    bibliography.sort()
-    for item in bibliography.bibliography():
-        references.append(str(item))
-
+    with open('/home/gio/Documents/articles/tmp/formattedReferences.txt', 'r') as f:
+        for ref_html in f:
+            if ref_html.startswith(prefix):
+               references.append(ref_html[len(prefix):-len(suffix)])
     md_biblio = '\n\n'.join(references)
 
     return md.replace(BIBLIO_TITLE, md_biblio)
