@@ -1,6 +1,7 @@
 from json import dump
 from re import split, findall
 
+import latexcodec
 
 TYPES = {'article': "article-journal",
          'book': 'book',
@@ -81,6 +82,10 @@ def fix_entry(key, entry):
         if field == 'author':
             author_keys = []
             for one_author in value.split(' and '):
+                if '{' in one_author:
+                    one_author = one_author.replace('ð', 'd')  # simplify when it has both latex and utf8 in the same name
+                    one_author = one_author.encode('latex').decode("latex")
+                    one_author = one_author.replace('{', '').replace('}', '')
 
                 author_name = one_author.split(', ')
                 author_key = {'family': author_name[0].strip()}
