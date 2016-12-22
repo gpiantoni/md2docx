@@ -30,7 +30,7 @@ setup(
     ],
     keywords='writing docx markdown',
     packages=find_packages(),
-    install_requires=['citeproc-py'],
+    install_requires=['python-docx', 'latexcodec'],
     package_data={
         'md2docx': ['VERSION',
                     'var/acronyms.txt',
@@ -48,7 +48,7 @@ setup(
     entry_points={
         'console_scripts': [
             'md2docx=md2docx.main:main',
-            'fixbib=md2docx.main:fixbib',
+            'prepare_bib=md2docx.main:prepare_bib',
         ],
     },
 )

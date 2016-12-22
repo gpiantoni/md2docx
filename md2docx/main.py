@@ -101,7 +101,7 @@ def main():
             one_png.unlink()
 
 
-def fixbib():
+def prepare_bib():
     parser = ArgumentParser(prog='md2docx',
                             description='Convert Markdown to Office DOCX')
     parser.add_argument('--library', default=str(orig_bib_file),
