@@ -23,6 +23,7 @@ def warn(citation_item):
 
 BIBLIO_TITLE = '## References'
 DPI = 300
+CITATION_SEPARATOR = ','  # this is how references are separated in md ',; '
 
 
 def preproc_md(article_dir, tmp_dir, md_file, args):
@@ -331,12 +332,12 @@ def _prepare_node_input(md, citations_to_do):
     citations_to_do : instance of Path
         json file where to write citations from md
     """
-    md_citations = findall('(\[?@[@\w+0-9; ]+\]?)', md)
+    md_citations = findall('(\[?@[@\w+0-9' + CITATION_SEPARATOR + ']+\]?)', md)
 
     j_citations = []
     for v in md_citations:
         items = []
-        for x in v.split(';'):
+        for x in split('[' + CITATION_SEPARATOR + ']+', v):
             items.append({'id': x.strip('[@] ') })
         j_cit = {'citationID': v,
                  'citationItems': items,
@@ -375,7 +376,8 @@ def _read_node_output(md, tmp_dir):
         citation_i += 1
         return x
 
-    md = sub('(\[?@[@\w+0-9; ]+\]?)', sub_citations, md)
+    md = sub('(\[?@[@\w+0-9' + CITATION_SEPARATOR + ']+\]?)', sub_citations,
+             md)
 
     prefix = '  <div class="csl-entry">'
     suffix = '</div>\n'
