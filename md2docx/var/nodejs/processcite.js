@@ -33,17 +33,40 @@ citeprocSys = {
 
 var citeproc = new CSL.Engine(citeprocSys, CSLStyle);
 
+
 // output citations
 var j_format = [];
 var preCitat = [];
+var postCitat = [];
+var items = [];
+
+for (let i0 in citations_j) {
+	var cit_items = citations_j[i0]['citationItems'];
+	for (let i1 in cit_items) {
+	 items.push(cit_items[i1]['id']);
+ };
+};
+
+citeproc.updateItems(items);
 
 for (let item in citations_j) {
 try {
- var result = citeproc.processCitationCluster(citations_j[item], preCitat, []);
- j_format.push(result[1][0][1]);
- preCitat.push([result[1][0][2], 0]);
+ postCitat.push([citations_j[item]['citationID'], 0]);
 } catch (err) {
- console.error(citations_j[item])
+ console.error(citations_j[item]['citationID'])
+};
+}
+
+for (let item in citations_j) {
+try {
+ postCitat.shift();
+ var result = citeproc.appendCitationCluster(citations_j[item], preCitat, postCitat);
+ j_format.push(result[0][1]);
+ preCitat.push([result[0][2], 0]);
+
+
+} catch (err) {
+ console.error(citations_j[item]['citationID'])
 };
 }
 fs.writeFileSync(outFile, JSON.stringify(j_format, null, 4));

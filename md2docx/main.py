@@ -10,16 +10,15 @@ from .prepare_md import preproc_md
 from .prepare_docx import convert_to_docx
 from .prepare_bib import fix_biblio, return_csl
 from .journal import Journal
+from .utils import (bib_dir,
+                    journals_dir,
+                    ref_dir,
+                    var_dir
+                    )
 
 
-cwd = Path(getcwd())
-
-pkg_dir = Path(__file__).resolve().parent
-var_dir = pkg_dir / 'var'
-orig_bib_file = var_dir / 'bib' / 'library.bib'
-ref_dir = var_dir / 'docx'
+orig_bib_file = bib_dir / 'library.bib'
 REF_DOCX = ref_dir / 'reference.docx'
-journals_dir = var_dir / 'journals'
 JOURNALS = [x.stem for x in journals_dir.glob('*.json')]
 
 
@@ -32,8 +31,6 @@ def main():
     """
     parser = ArgumentParser(prog='md2docx',
                             description='Convert Markdown to Office DOCX')
-    parser.add_argument('-p', '--proj', required=True,
-                        help='project code')
     parser.add_argument('-j', '--journal',
                         help='journal name (' + ', '.join(JOURNALS) + ')')
     parser.add_argument('--journal_json',
@@ -56,25 +53,20 @@ def main():
     args = parser.parse_args()
 
     if not args.csl:
-        args.csl = return_csl(var_dir, args.journal)
+        args.csl = return_csl(args.journal)
 
     MD_FILES = ('main.md', 'review.md', 'editor.md')
 
-    if args.journal:
-        FOLDER_PREFIX = 'article'
-        if not args.journal_json:
-            args.journal_json = journals_dir / (args.journal + '.json')
-    else:
-        FOLDER_PREFIX = 'grant'
+    if not args.journal_json:
+        args.journal_json = journals_dir / (args.journal + '.json')
 
-    args.article = FOLDER_PREFIX + '_' + args.proj
-    article_dir = cwd / args.article
+    article_dir = Path(getcwd())
     out_dir = article_dir / 'output'
     out_dir.mkdir(exist_ok=True)
 
     args.library = fix_biblio(Path(args.library))
-    # copy files
 
+    # copy files
     tmp_dir = article_dir / 'tmp'
 
     if not args.only_docx:

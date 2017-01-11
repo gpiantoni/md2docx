@@ -3,6 +3,9 @@ from re import split, findall
 
 import latexcodec
 
+from .utils import csl_dir
+
+
 TYPES = {'article': "article-journal",
          'book': 'book',
          'incollection': 'chapter',
@@ -17,6 +20,10 @@ FIELDS = {'author': 'author',
           'pages': 'page',
           'year': 'issued',
           'journal': 'container-title',
+          'booktitle': 'container-title',  # chapter
+          'editor': 'editor',
+          'publisher': 'publisher',
+          'address': 'publisher-place',
           }
 
 LATEX_SYMBOLS = {'$\\alpha$': 'α',
@@ -71,7 +78,8 @@ def prepare_bib(old_bib, new_bib):
         j_entries[key[1]] = fix_entry(key, entry)
 
     with new_bib.open('w') as f:
-        dump(j_entries, f, separators=(',', ':'))
+        # dump(j_entries, f, separators=(',', ':'))
+        dump(j_entries, f, indent=2)
 
 
 def fix_entry(key, entry):
@@ -79,7 +87,7 @@ def fix_entry(key, entry):
                'type': TYPES[key[0]]}
 
     for field, value in findall('\n([a-z]*) = {(.*)}', entry):
-        if field == 'author':
+        if field in ('author', 'editor'):
             author_keys = []
             for one_author in value.split(' and '):
                 if '{' in one_author:
@@ -110,13 +118,11 @@ def fix_entry(key, entry):
     return j_entry
 
 
-def return_csl(var_dir, journal):
+def return_csl(journal):
     """Return the default citation style language depending on journal type.
 
     Parameters
     ----------
-    var_dir : path to dir
-        directory with optional information
     journal : str
         str with journal name
 
@@ -125,8 +131,6 @@ def return_csl(var_dir, journal):
     path to file
         path to csl file
     """
-    csl_dir = var_dir / 'csl'
-
     if journal == 'CerebCortex':
         CSL = csl_dir / 'cerebral-cortex.csl'
     elif journal == 'eLife':

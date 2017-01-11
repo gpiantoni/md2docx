@@ -8,7 +8,9 @@ from re import sub, search, findall, finditer, split
 from subprocess import run
 
 from .journal import Journal
-
+from .utils import (loc_dir,
+                    node_dir,
+                    )
 SRC_DIR = 'src'
 IMG_DIR = 'img'
 OUT_DIR = 'output'
@@ -308,20 +310,27 @@ def _int_to_roman(i):
 def add_references(md, tmp_dir, args):
     """
     Remember that this function is run for main, review, and editor.
-
-    bib_source = BibTeX(str(args.library), 'utf-8')
-    bib_style = CitationStylesStyle(str(args.csl), validate=False)
     """
-    _prepare_node_input(md)
+    citations_to_do = tmp_dir / 'citations.json'
+    _prepare_node_input(md, citations_to_do)
 
-    _process_node()
+    _process_node(tmp_dir, args)
 
-    md = _read_node_output(md)
+    md = _read_node_output(md, tmp_dir)
 
     return md
 
 
-def _prepare_node_input(md):
+def _prepare_node_input(md, citations_to_do):
+    """Read citations from md file and write them to json for node.js
+
+    Parameters
+    ----------
+    md : str
+        text of the manuscript
+    citations_to_do : instance of Path
+        json file where to write citations from md
+    """
     md_citations = findall('(\[?@[@\w+0-9; ]+\]?)', md)
 
     j_citations = []
@@ -334,23 +343,27 @@ def _prepare_node_input(md):
                  'properties': {}}
         j_citations.append(j_cit)
 
-    citations_to_do = Path('/home/gio/Documents/articles/tmp/citations.json')
     with citations_to_do.open('w') as f:
         dump(j_citations, f, indent=2, sort_keys=True)
 
 
-def _process_node():
-    cmd = ['node', ]
-    cmd += ['processcite.js']
-    cmd += ['/home/gio/Documents/articles/tmp']
-    cmd += ['/home/gio/Documents/articles/package/md2docx/var/bib/library.json']
-    cmd += ['/home/gio/Documents/articles/package/md2docx/var/csl/the-journal-of-neuroscience.csl']
-    cmd += ['/home/gio/Documents/articles/package/md2docx/var/locale']
+def _process_node(tmp_dir, args):
+    biblio = Path(args.library).with_suffix('.json')
 
-    run(cmd, cwd='/home/gio/Documents/articles/package/nodejs')
+    cmd = ['node',
+           'processcite.js',
+           str(tmp_dir),
+           str(biblio),
+           str(args.csl),
+           str(loc_dir)]
 
-def _read_node_output(md):
-    with open('/home/gio/Documents/articles/tmp/formattedCitations.json', 'r') as f:
+    run(cmd, cwd=str(node_dir))
+
+def _read_node_output(md, tmp_dir):
+    citations_formatted = tmp_dir / 'formattedCitations.json'
+    references_formatted = tmp_dir / 'formattedReferences.txt'
+
+    with citations_formatted.open('r') as f:
         citations = load(f)
 
     citation_i= 0
@@ -368,7 +381,7 @@ def _read_node_output(md):
     suffix = '</div>\n'
 
     references = [BIBLIO_TITLE, ]
-    with open('/home/gio/Documents/articles/tmp/formattedReferences.txt', 'r') as f:
+    with references_formatted.open('r') as f:
         for ref_html in f:
             if ref_html.startswith(prefix):
                references.append(ref_html[len(prefix):-len(suffix)])
