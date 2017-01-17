@@ -9,6 +9,7 @@ from subprocess import run
 from .prepare_md import preproc_md
 from .prepare_docx import convert_to_docx
 from .prepare_bib import fix_biblio, return_csl
+from .prepare_pdf import convert_to_pdf
 from .journal import Journal
 from .utils import (bib_dir,
                     journals_dir,
@@ -83,6 +84,7 @@ def main():
     if not args.only_md:
         for md_file in MD_FILES:
             convert_to_docx(out_dir, tmp_dir, md_file, args)
+            convert_to_pdf(out_dir, md_file)
 
     # convert to tiff if necessary
     j = Journal(args.journal_json)
