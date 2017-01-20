@@ -1,4 +1,6 @@
 dist/
 docs/build/
-md2docx/var/docx/reference.docx
+docs/source/api
+md2docx/var/bib/
+*.ipynb
 

@@ -23,7 +23,7 @@ def warn(citation_item):
 
 BIBLIO_TITLE = '## References'
 DPI = 300
-CITATION_SEPARATOR = ','  # this is how references are separated in md ',; '
+CITATION_SEPARATOR = '; '  # this is how references are separated in md ',; '
 
 
 def preproc_md(article_dir, tmp_dir, md_file, args):
