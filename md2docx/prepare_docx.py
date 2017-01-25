@@ -17,6 +17,9 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
 
     docx_path = output_dir / md_path.with_suffix('.docx').name
 
+    first_fig = True
+    first_table = True
+
     with md_path.open() as f:
 
         p = None
@@ -33,10 +36,25 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
                 document.add_heading(md[3:], 1)
 
             elif md.startswith('### '):
-                cond0 = j.embed_figures() or args.embed
-                cond1 = md.startswith('### Figure ') and not md == '### Figure 1'
-                if cond0 and cond1:
-                    document.add_page_break()
+
+                if md.startswith('### Table '):
+                    if first_table:
+                        # no new page for the first table
+                        first_table = False
+
+                    else:
+                        document.add_page_break()
+
+                cond_f0 = j.embed_figures() or args.embed
+                cond_f1 = md.startswith('### Figure ')
+                if cond_f0 and cond_f1:
+                    if first_fig:
+                        # no new page for the first fig
+                        first_fig = False
+
+                    else:
+                        document.add_page_break()
+
                 document.add_heading(md[4:], 2)
 
             elif md.startswith('![]('):
