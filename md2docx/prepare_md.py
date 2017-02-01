@@ -100,7 +100,7 @@ def count_text(md, j):
                 break
 
             if limit['limit']['type']:
-                count += len(findall('\s', section_text))
+                count += len(findall('\s+', section_text))
             else:
                 raise NotImplementedError
 
