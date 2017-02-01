@@ -1,0 +1,97 @@
+{
+ "meta": {
+	"name": "SciRep",
+	"version": 1.2,
+	"created": "???"
+ },
+ "citations": {
+	"csl": "nature.csl",
+	"changes": {}
+ },
+ "figures": {
+	"embed": false,
+	"format": "tiff"
+ },
+ "sections": [
+	{"name": "Abstract",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Abbreviations",
+	 "mandatory": false,
+	 "newpage": false
+	},
+	{"name": "Introduction",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Results",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Discussion",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Conclusions",
+	 "mandatory": false,
+	 "newpage": false
+	},
+	{"name": "Methods",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "References",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Acknowledgments",
+	 "mandatory": false,
+	 "newpage": false
+	},
+	{"name": "Author Contributions",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Conflict of Interest",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Figures",
+	 "mandatory": false,
+	 "newpage": true
+	},
+	{"name": "Tables",
+	 "mandatory": false,
+	 "newpage": true
+	}
+ ],
+ "wordcount": [
+	{"sections": [
+	 "Abstract"
+	],
+	"limit": {
+	 "number" : 200,
+	 "type": "word"
+	}
+	},
+	{"sections": [
+	 "Introduction",
+	 "Results",
+	 "Discussion"
+	],
+	"limit": {
+	 "number" : 4500,
+	 "type": "word"
+	}
+	},
+	{"sections": [
+	 "Methods"
+	],
+	"limit": {
+	 "number" : 1500,
+	 "type": "word"
+	}
+	}
+ ]
+}
