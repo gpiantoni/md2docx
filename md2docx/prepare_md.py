@@ -382,8 +382,8 @@ def _read_node_output(md, tmp_dir):
     with references_formatted.open('r') as f:
         ref_str = f.read()
 
-    ref_str = ref_str.replace('<b>', '**')
-    ref_str = ref_str.replace('</b>', '**')
+    ref_str = ref_str.replace('<b>', '%')
+    ref_str = ref_str.replace('</b>', '%')
     ref_str = ref_str.replace('<i>', '*')
     ref_str = ref_str.replace('</i>', '*')
     ref_str = ref_str.replace('&#38;', '&')
