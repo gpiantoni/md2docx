@@ -17,10 +17,6 @@
 	 "mandatory": true,
 	 "newpage": true
 	},
-	{"name": "Abbreviations",
-	 "mandatory": false,
-	 "newpage": false
-	},
 	{"name": "Introduction",
 	 "mandatory": true,
 	 "newpage": true
@@ -44,6 +40,10 @@
 	{"name": "References",
 	 "mandatory": true,
 	 "newpage": true
+	},
+	{"name": "Abbreviations",
+	 "mandatory": false,
+	 "newpage": false
 	},
 	{"name": "Acknowledgments",
 	 "mandatory": false,
