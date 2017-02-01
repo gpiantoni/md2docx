@@ -1,9 +1,7 @@
 from json import dump
 from re import split, findall
 
-import latexcodec
-
-from .utils import csl_dir
+import latexcodec  # it's necessary to import it here
 
 
 TYPES = {'article': "article-journal",
@@ -116,44 +114,3 @@ def fix_entry(key, entry):
             j_entry[FIELDS[field]] = value
 
     return j_entry
-
-
-def return_csl(journal):
-    """Return the default citation style language depending on journal type.
-
-    Parameters
-    ----------
-    journal : str
-        str with journal name
-
-    Returns
-    -------
-    path to file
-        path to csl file
-    """
-    if journal == 'CerebCortex':
-        CSL = csl_dir / 'cerebral-cortex.csl'
-    elif journal == 'eLife':
-        CSL = csl_dir / 'the-journal-of-neuroscience.csl'
-    elif journal == 'HumBrainMapp':
-        CSL = csl_dir / 'human-brain-mapping.csl'
-    elif journal == 'JNeurosci':
-        CSL = csl_dir / 'the-journal-of-neuroscience.csl'
-    elif journal == 'NatCommun':
-        CSL = csl_dir / 'nature.csl'
-    elif journal == 'NeuralPlast':
-        CSL = csl_dir / 'elsevier-vancouver.csl'  # I removed access field
-    elif journal == 'Neuroimage':
-        CSL = csl_dir / 'elsevier-harvard.csl'
-    elif journal == 'Neuron':
-        CSL = csl_dir / 'cell.csl'
-    elif journal == 'PLoSBiol':
-        CSL = csl_dir / 'plos.csl'  # I removed access field
-    elif journal == 'PNAS':
-        CSL = csl_dir / 'pnas.csl'  # I removed access field
-    elif journal == 'Sleep':
-        CSL = csl_dir / 'sleep.csl'
-    else:
-        raise ValueError('The format of ' + journal + ' is not implemented')
-
-    return CSL

@@ -9,10 +9,6 @@ class Journal:
     ----------
     journal_json : instance of Path
         path to journal .json file
-
-    TODO
-    -----
-    use csl from json file
     """
     def __init__(self, journal_json):
         self.journal_json = journal_json
@@ -23,6 +19,10 @@ class Journal:
     @property
     def sections(self):
         return [x['name'] for x in self.json['sections']]
+
+    @property
+    def csl(self):
+        return self.json['citations']['csl']
 
     def is_necessary(self, section_name):
         """check if session is necessary

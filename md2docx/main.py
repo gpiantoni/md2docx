@@ -8,13 +8,14 @@ from subprocess import run
 
 from .prepare_md import preproc_md
 from .prepare_docx import convert_to_docx
-from .prepare_bib import fix_biblio, return_csl
+from .prepare_bib import fix_biblio
 from .prepare_pdf import convert_to_pdf
 from .journal import Journal
 from .utils import (bib_dir,
                     journals_dir,
                     ref_dir,
-                    var_dir
+                    var_dir,
+                    csl_dir
                     )
 
 
@@ -53,13 +54,14 @@ def main():
 
     args = parser.parse_args()
 
-    if not args.csl:
-        args.csl = return_csl(args.journal)
-
     MD_FILES = ('main.md', 'review.md', 'editor.md')
 
     if not args.journal_json:
         args.journal_json = journals_dir / (args.journal + '.json')
+    j = Journal(args.journal_json)
+
+    if not args.csl:
+        args.csl = csl_dir / j.csl
 
     article_dir = Path(getcwd())
     out_dir = article_dir / 'output'
@@ -87,7 +89,6 @@ def main():
             convert_to_pdf(out_dir, md_file)
 
     # convert to tiff if necessary
-    j = Journal(args.journal_json)
     if j.figure_format() == 'tiff':
         for one_png in out_dir.glob('*.png'):
             one_tiff = one_png.with_suffix('.tiff')

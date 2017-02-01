@@ -66,13 +66,11 @@ def preproc_md(article_dir, tmp_dir, md_file, args):
 
     md = _make_acronyms(md, args.acronyms)
 
-    print('')
     md = include_figures(article_dir, md, j, args, is_main)
 
     md = add_references(md, tmp_dir, args)
 
     if is_main:
-        print('')
         count_text(md, j)
 
     with out_path.open('w') as f:
@@ -378,15 +376,24 @@ def _read_node_output(md, tmp_dir):
 
     md = sub('(\[?@[@\w+0-9' + CITATION_SEPARATOR + ']+\]?)', sub_citations,
              md)
+    md = md.replace(' <sup>', '^')
+    md = md.replace('</sup>', '^')
 
-    prefix = '  <div class="csl-entry">'
-    suffix = '</div>\n'
-
-    references = [BIBLIO_TITLE, ]
     with references_formatted.open('r') as f:
-        for ref_html in f:
-            if ref_html.startswith(prefix):
-               references.append(ref_html[len(prefix):-len(suffix)])
+        ref_str = f.read()
+
+    ref_str = ref_str.replace('<b>', '**')
+    ref_str = ref_str.replace('</b>', '**')
+    ref_str = ref_str.replace('<i>', '*')
+    ref_str = ref_str.replace('</i>', '*')
+    ref_str = ref_str.replace('&#38;', '&')
+
+
+    ref_str = sub('<div class=\"[\w-]+\">', '', ref_str)
+    ref_str = sub('</div>', '', ref_str)
+    references = [line.strip() for line in ref_str.split('\n') if line.strip()]
+    references.insert(0, BIBLIO_TITLE)
+
     md_biblio = '\n\n'.join(references)
 
     return md.replace(BIBLIO_TITLE, md_biblio)

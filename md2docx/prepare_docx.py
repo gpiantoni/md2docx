@@ -61,12 +61,13 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
                 path_to_img = md[4:-1]  # TODO: cleaner way to select path
                 document.add_picture(path_to_img)
 
-            elif len(md) > 0 and md[0] == '^' and md[-1] == '^':  # table header (TODO: how to modify format)
+            elif len(md) > 0 and md[0] == '^' and md[-1] == '^':  # table header
                 n_col = md.count('^') - 1
                 table = document.add_table(rows=1, cols=n_col)
+                table.autofit = True
                 row_cells = table.rows[0].cells
                 for one_cell, txt in zip(row_cells, md.split('^')[1:-1]):
-                    one_cell.text = txt.strip()
+                    one_cell.paragraphs[0].add_run(txt.strip()).bold = True
 
             elif len(md) > 0 and md[0] == '|' and md[-1] == '|':
                 row_cells = table.add_row().cells
