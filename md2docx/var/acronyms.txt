@@ -6,6 +6,7 @@
     "BOLD": "blood oxygen level dependent",
     "BRAC": "Basic Rest-Activity Cycle", 
     "cICA": "constraint independent component analysis",
+    "CFC": "cross-frequency coupling",
     "CSD": "cross-spectral density",
     "CT": "cortical tomography",
     "CxCx": "cortico-cortical",
