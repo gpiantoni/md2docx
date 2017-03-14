@@ -111,6 +111,12 @@ def _add_run(p, md):
         # remove slash for \*, \~, \^
         one_run = sub('\\\([%~\*\^])', '\g<1>', one_run)
 
+        if one_run.endswith('\\'):
+            LINE_BREAK = True
+            one_run = one_run[:-1]
+        else:
+            LINE_BREAK = False
+
         r = p.add_run(one_run)
 
         if italics:
@@ -132,3 +138,6 @@ def _add_run(p, md):
             superscript = ~superscript
         if one_value == '~':
             subscript = ~subscript
+
+        if LINE_BREAK:
+            r.add_break()
