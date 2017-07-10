@@ -102,7 +102,7 @@ def main():
                 convert_to_pdf(out_dir, md_file)
 
     # convert to tiff if necessary
-    if j.figure_format() == 'tiff':
+    if j.figure_format() == 'tiff' and not args.keep_png:
         if Image is None:
             raise ImportError('cannot convert png to tiff, install Pillow')
 
