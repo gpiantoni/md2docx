@@ -347,9 +347,15 @@ def _prepare_node_input(md, citations_to_do):
 
 
 def _process_node(tmp_dir, args):
+    
+    if args.node_path is not None:
+        node = str(Path(args.node_path) / 'node')
+    else:
+        node = 'node'
+    
     biblio = Path(args.library).with_suffix('.json')
 
-    cmd = ['node',
+    cmd = [node,
            'processcite.js',
            str(tmp_dir),
            str(biblio),

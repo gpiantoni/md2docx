@@ -43,6 +43,8 @@ def main():
                         help='path to csl file (default depends on journal)')
     parser.add_argument('--ref_docx', default=REF_DOCX,
                         help='path to docx used as reference (default: %(default)s)')
+    parser.add_argument('--node_path',
+                        help='path to directory containing node (if not on PATH already)')
     parser.add_argument('--acronyms', default=str(var_dir / 'acronyms.txt'),
                         help='acronyms to use (default: %(default)s)')
     parser.add_argument('--embed', action='store_true',
