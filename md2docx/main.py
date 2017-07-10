@@ -33,7 +33,7 @@ def main():
     """
     parser = ArgumentParser(prog='md2docx',
                             description='Convert Markdown to Office DOCX')
-    parser.add_argument('-j', '--journal',
+    parser.add_argument('-j', '--journal', required=True,
                         help='journal name (' + ', '.join(JOURNALS) + ')')
     parser.add_argument('--journal_json',
                         help='specify full path to custom journal .json file')
