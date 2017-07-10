@@ -184,7 +184,7 @@ def include_figures(article_dir, s, j, args, is_main):
 
     # ADD INDICES FOR FIGURES AND TABLES
     s, figure_name = _make_index(s, is_main)
-    _svg2png(figure_name, img_dir, out_dir)
+    _svg2png(figure_name, img_dir, out_dir, args)
     return s
 
 
@@ -246,7 +246,7 @@ def _make_index(s, is_main):
     return s, figure_name
 
 
-def _svg2png(figure_name, img_dir, out_dir):
+def _svg2png(figure_name, img_dir, out_dir, args):
     """Convert svg to png if necessary.
 
     Parameters
@@ -270,8 +270,11 @@ def _svg2png(figure_name, img_dir, out_dir):
 
     relies on inkscape being installed
     """
-    inkscape_cmd = '('
-
+    if args.inkscape_path is not None:
+        inkscape = str(Path(args.inkscape_path) / 'inkscape')
+    else:
+        inkscape = 'inkscape'
+    
     for i_svg, i_png in zip(*figure_name):
         svg_file = img_dir / i_svg
         if not svg_file.exists():
@@ -279,16 +282,14 @@ def _svg2png(figure_name, img_dir, out_dir):
 
         png_file = out_dir / i_png
 
-        print('Converting ' + i_svg)
-        inkscape_cmd += 'echo ' + str(svg_file)
-        inkscape_cmd += ' --export-dpi=' + str(DPI)
-        inkscape_cmd += ' --export-background=#ffffff'  # use white background
-        inkscape_cmd += ' --export-png=' + str(png_file) + '\n'
-
-    inkscape_cmd += ') |  inkscape --shell'
-    if len(inkscape_cmd) > 22:  # if it has anything to do at all
-        run(inkscape_cmd, stdout=open(devnull, "w"),
-             stderr=open(devnull, "w"), shell=True)
+        cmd = [inkscape,
+              str(svg_file),
+              '--export-dpi=' + str(DPI),
+              '--export-background=#ffffff',  # use white background
+              '--export-png=' + str(png_file),
+              ]
+        print(' '.join(cmd))
+        run(cmd, stdout=open(devnull, "w"), stderr=open(devnull, "w"))
 
 
 def _int_to_roman(i):
