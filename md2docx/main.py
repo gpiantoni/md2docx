@@ -5,6 +5,10 @@ from os import getcwd
 from pathlib import Path
 from shutil import rmtree
 from subprocess import run
+try:
+    from PIL import Image
+except ImportError:
+    Image = None
 
 from .prepare_md import preproc_md
 from .prepare_docx import convert_to_docx
@@ -51,6 +55,10 @@ def main():
                         help='acronyms to use (default: %(default)s)')
     parser.add_argument('--embed', action='store_true',
                         help='will embed png in the docx')
+    parser.add_argument('--keep_png', action='store_true',
+                        help='do not convert png to tiff, even if it is required by the journal')
+    parser.add_argument('--pdf', action='store_true',
+                        help='convert to PDF as well (you need libreoffice installed)')
     parser.add_argument('--only_md', action='store_true',
                         help='prepare only the intermediate md (for debugging)')
     parser.add_argument('--only_docx', action='store_true',
@@ -90,13 +98,18 @@ def main():
     if not args.only_md:
         for md_file in MD_FILES:
             convert_to_docx(out_dir, tmp_dir, md_file, args)
-            convert_to_pdf(out_dir, md_file)
+            if args.pdf:
+                convert_to_pdf(out_dir, md_file)
 
     # convert to tiff if necessary
     if j.figure_format() == 'tiff':
+        if Image is None:
+            raise ImportError('cannot convert png to tiff, install Pillow')
+
         for one_png in out_dir.glob('*.png'):
             one_tiff = one_png.with_suffix('.tiff')
-            run(['convert', str(one_png), str(one_tiff)])
+            img = Image.open(str(one_png))
+            img.save(str(one_tiff))  # uncompressed TIFF
             one_png.unlink()
 
 
