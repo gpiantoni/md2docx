@@ -175,7 +175,7 @@ def include_figures(article_dir, s, j, args, is_main):
 
     if j.embed_figures() or args.embed or not is_main:
         s = sub('### Figure (\[\+[\w]*\])',
-                '\g<0>\n![](' + str(out_dir / 'figure_\g<1>.png') + ')\n',
+                '\g<0>\n![](' + (out_dir / 'figure_\g<1>.png').as_posix() + ')\n',
                 s)
     else:
         s = sub('### Figure (\[\+[\w]*\])',
