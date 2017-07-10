@@ -60,7 +60,7 @@ def fix_biblio(biblio_orig):
 
 
 def prepare_bib(old_bib, new_bib):
-    with old_bib.open() as f:
+    with old_bib.open(errors='ignore') as f:
         bib_orig = f.read()
 
     for latex_name, symbol in LATEX_SYMBOLS.items():
@@ -90,6 +90,7 @@ def fix_entry(key, entry):
             for one_author in value.split(' and '):
                 if '{' in one_author:
                     one_author = one_author.replace('ð', 'd')  # simplify when it has both latex and utf8 in the same name
+                    one_author = one_author.replace('ƒ', 'f')
                     one_author = one_author.encode('latex').decode("latex")
                     one_author = one_author.replace('{', '').replace('}', '')
 
