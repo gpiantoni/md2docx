@@ -21,6 +21,7 @@ def warn(citation_item):
     print("WARNING: Reference '{}' not found in the bibliography."
           .format(citation_item.key))
 
+
 BIBLIO_TITLE = '## References'
 DPI = 300
 CITATION_SEPARATOR = '; '  # this is how references are separated in md ',; '
@@ -312,13 +313,33 @@ def add_references(md, tmp_dir, args):
     Remember that this function is run for main, review, and editor.
     """
     citations_to_do = tmp_dir / 'citations.json'
+    biblio = Path(args.library).with_suffix('.json')
+
     _prepare_node_input(md, citations_to_do)
 
-    _process_node(tmp_dir, args)
+    _check_citation_keys(citations_to_do, biblio)
+    _process_node(tmp_dir, biblio, args)
 
     md = _read_node_output(md, tmp_dir)
 
     return md
+
+
+def _check_citation_keys(citations_json, library_json):
+    """Check that all the citation keys are present in the library.
+    Otherwise citeproc.js fails but it's hard to know which citation is missing
+    """
+    with citations_json.open() as f:
+        citations = load(f)
+
+    with library_json.open() as f:
+        library = load(f)
+
+    to_cite = {x0['id'] for x1 in citations for x0 in x1['citationItems']}
+
+    not_in_lib = to_cite - set(library)
+    if not_in_lib:
+        raise ValueError('Citation key not found in library: ' + ', '.join(not_in_lib))
 
 
 def _prepare_node_input(md, citations_to_do):
@@ -337,7 +358,7 @@ def _prepare_node_input(md, citations_to_do):
     for v in md_citations:
         items = []
         for x in split('[' + CITATION_SEPARATOR + ']+', v):
-            items.append({'id': x.strip('[@] ') })
+            items.append({'id': x.strip('[@] ')})
         j_cit = {'citationID': v,
                  'citationItems': items,
                  'properties': {}}
@@ -347,14 +368,12 @@ def _prepare_node_input(md, citations_to_do):
         dump(j_citations, f, indent=2, sort_keys=True)
 
 
-def _process_node(tmp_dir, args):
+def _process_node(tmp_dir, biblio, args):
 
     if args.node_path is not None:
         node = str(Path(args.node_path) / 'node')
     else:
         node = 'node'
-
-    biblio = Path(args.library).with_suffix('.json')
 
     cmd = [node,
            'processcite.js',
@@ -373,7 +392,7 @@ def _read_node_output(md, tmp_dir):
     with citations_formatted.open('r') as f:
         citations = load(f)
 
-    citation_i= 0
+    citation_i = 0
 
     def sub_citations(matchobj):
         nonlocal citation_i
