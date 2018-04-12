@@ -95,9 +95,9 @@ def fix_entry(key, entry):
                     one_author = one_author.replace('{', '').replace('}', '')
 
                 author_name = one_author.split(', ')
-                author_key = {'family': author_name[0].strip()}
+                author_key = {'family': fix_case(author_name[0])}
                 if len(author_name) > 1:
-                    author_key['given'] = author_name[1].strip()
+                    author_key['given'] = fix_case(author_name[1])
                 author_keys.append(author_key)
 
             value = author_keys
@@ -115,3 +115,18 @@ def fix_entry(key, entry):
             j_entry[FIELDS[field]] = value
 
     return j_entry
+
+
+def fix_case(name):
+    """Old records in Pubmed tend to have author names with all upper cases,
+    which is clearly incorrect. So here we convert those names to title case.
+    I don't expect weird side effects, but there might be exceptions.
+
+    The case of the key for citations remains the same (probably all upper case)
+    """
+    name = name.strip()
+
+    if name.isupper():
+        return name.capitalize()
+
+    return name
