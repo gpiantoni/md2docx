@@ -4,7 +4,6 @@ from re import split, findall, sub
 from .journal import Journal
 
 
-
 def convert_to_docx(output_dir, tmp_dir, md_file, args):
 
     md_path = tmp_dir / md_file

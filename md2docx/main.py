@@ -79,7 +79,7 @@ def main():
     out_dir = article_dir / 'output'
     out_dir.mkdir(exist_ok=True)
 
-    args.library = fix_biblio(Path(args.library))
+    args.library = fix_biblio(Path(args.library).resolve())
 
     # copy files
     tmp_dir = article_dir / 'tmp'

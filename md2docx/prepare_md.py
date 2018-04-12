@@ -274,7 +274,7 @@ def _svg2png(figure_name, img_dir, out_dir, args):
         inkscape = str(Path(args.inkscape_path) / 'inkscape')
     else:
         inkscape = 'inkscape'
-    
+
     for i_svg, i_png in zip(*figure_name):
         svg_file = img_dir / i_svg
         if not svg_file.exists():
@@ -348,12 +348,12 @@ def _prepare_node_input(md, citations_to_do):
 
 
 def _process_node(tmp_dir, args):
-    
+
     if args.node_path is not None:
         node = str(Path(args.node_path) / 'node')
     else:
         node = 'node'
-    
+
     biblio = Path(args.library).with_suffix('.json')
 
     cmd = [node,
@@ -363,6 +363,7 @@ def _process_node(tmp_dir, args):
            str(args.csl),
            str(loc_dir)]
 
+    print(' '.join(cmd))
     run(cmd, cwd=str(node_dir))
 
 def _read_node_output(md, tmp_dir):
