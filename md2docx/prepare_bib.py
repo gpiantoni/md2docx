@@ -24,6 +24,13 @@ FIELDS = {'author': 'author',
           'address': 'publisher-place',
           }
 
+# simplify when it has both latex and utf8 in the same name
+UTF8_SYMBOLS = {
+    'ð': 'd',
+    'ƒ': 'f',
+    'Þ': 'th',
+    }
+
 LATEX_SYMBOLS = {'$\\alpha$': 'α',
                  '$\\beta$': 'β',
                  '$\\gamma$': 'γ',
@@ -89,8 +96,8 @@ def fix_entry(key, entry):
             author_keys = []
             for one_author in value.split(' and '):
                 if '{' in one_author:
-                    one_author = one_author.replace('ð', 'd')  # simplify when it has both latex and utf8 in the same name
-                    one_author = one_author.replace('ƒ', 'f')
+                    for utf8_symbol, ascii_symbol in UTF8_SYMBOLS.items():
+                        one_author = one_author.replace(utf8_symbol, ascii_symbol)  # simplify when it has both latex and utf8 in the same name
                     one_author = one_author.encode('latex').decode("latex")
                     one_author = one_author.replace('{', '').replace('}', '')
 
