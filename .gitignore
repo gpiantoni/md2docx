@@ -4,3 +4,5 @@ docs/source/api
 md2docx/var/bib/
 *.ipynb
 
+*.egg-info
+__pycache__/
