@@ -30,6 +30,7 @@
     "FWER": "family-wise error rate",
     "FWHM": "full width at half maximum",
     "GC": "Granger Causality",
+    "HFA": "high-frequency activity",
     "HRF": "hemodynamic response function",
     "ICA": "independent component analysis",
     "iEEG": "intracranial EEG",
