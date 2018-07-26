@@ -19,7 +19,7 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
     first_fig = True
     first_table = True
 
-    with md_path.open() as f:
+    with md_path.open(encoding='utf-8') as f:
 
         p = None
 
