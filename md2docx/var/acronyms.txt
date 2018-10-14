@@ -18,6 +18,7 @@
     "EKG": "electrocardiography",
     "EMG": "electromyography",
     "EOG": "electrooculography",
+    "EPI": "echo-planar imaging",
     "ERD": "event-related desynchronization",
     "ERP": "event-related potential",
     "ERS": "event-related synchronization",
