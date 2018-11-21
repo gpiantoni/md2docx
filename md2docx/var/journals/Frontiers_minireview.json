@@ -1,0 +1,71 @@
+{
+ "meta": {
+	"name": "Frontiers_minireview",
+	"version": 1.0,
+	"created": "???"
+ },
+ "citations": {
+	"csl": "frontiers.csl",
+	"changes": {}
+ },
+ "figures": {
+	"embed": false,
+	"format": "tiff"
+ },
+ "sections": [
+	{"name": "Abstract",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Main Text",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "References",
+	 "mandatory": true,
+	 "newpage": true
+	},
+	{"name": "Abbreviations",
+	 "mandatory": false,
+	 "newpage": false
+	},
+	{"name": "Acknowledgments",
+	 "mandatory": false,
+	 "newpage": false
+	},
+	{"name": "Author Contributions",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Conflict of Interest",
+	 "mandatory": true,
+	 "newpage": false
+	},
+	{"name": "Figures",
+	 "mandatory": false,
+	 "newpage": true
+	},
+	{"name": "Tables",
+	 "mandatory": false,
+	 "newpage": true
+	}
+ ],
+ "wordcount": [
+	{"sections": [
+	 "Abstract"
+	],
+	"limit": {
+	 "number" : 250,
+	 "type": "word"
+	}
+	},
+	{"sections": [
+	 "Main Text"
+	],
+	"limit": {
+	 "number" : 3000,
+	 "type": "word"
+	}
+	}
+ ]
+}
