@@ -1,5 +1,6 @@
 {
     "AD": "axial diffusivity",
+    "ADHD": "attention deficit hyperactivity disorder",
     "ANOVA": "analysis of variance",
     "BCG": "ballistocardiogram",
     "BEM": "boundary element model",
