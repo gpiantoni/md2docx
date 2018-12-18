@@ -30,6 +30,8 @@ UTF8_SYMBOLS = {
     'ƒ': 'f',
     'Þ': 'th',
     '€': 'EUR',
+    '«': '<<',
+    '»': '>>',
     }
 
 LATEX_SYMBOLS = {'$\\alpha$': 'α',
