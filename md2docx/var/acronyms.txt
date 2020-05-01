@@ -9,7 +9,7 @@
     "cICA": "constraint independent component analysis",
     "CFC": "cross-frequency coupling",
     "CSD": "cross-spectral density",
-    "CT": "cortical tomography",
+    "CT": "computed tomography",
     "CxCx": "cortico-cortical",
     "CxTh": "cortico-thalamic",
     "DC": "direct-coupled",
