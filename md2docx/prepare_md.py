@@ -283,12 +283,13 @@ def _svg2png(figure_name, img_dir, out_dir, args):
 
         png_file = out_dir / i_png
 
-        cmd = [inkscape,
-              str(svg_file),
-              '--export-dpi=' + str(DPI),
-              '--export-background=#ffffff',  # use white background
-              '--export-png=' + str(png_file),
-              ]
+        cmd = [
+            inkscape,
+            str(svg_file),
+            '--export-dpi=' + str(DPI),
+            '--export-background=#ffffff',  # use white background
+            '--export-filename=' + str(png_file),
+            ]
         print(' '.join(cmd))
         run(cmd, stdout=open(devnull, "w"), stderr=open(devnull, "w"))
 
