@@ -9,8 +9,8 @@
 	"changes": {}
  },
  "figures": {
-	"embed": true,
-	"format": "tiff"
+	"embed": false,
+	"format": "png"
  },
  "sections": [
 	{"name": "Abstract",

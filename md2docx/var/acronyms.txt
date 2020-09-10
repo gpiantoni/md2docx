@@ -4,7 +4,7 @@
     "ANOVA": "analysis of variance",
     "BCG": "ballistocardiogram",
     "BEM": "boundary element model",
-    "BOLD": "blood oxygen level dependent",
+    "BOLD": "blood oxygenation level dependent",
     "BRAC": "Basic Rest-Activity Cycle", 
     "cICA": "constraint independent component analysis",
     "CFC": "cross-frequency coupling",
