@@ -66,13 +66,13 @@ def convert_to_docx(output_dir, tmp_dir, md_file, args):
                 table.autofit = True
                 row_cells = table.rows[0].cells
                 for one_cell, txt in zip(row_cells, md.split('^')[1:-1]):
-                    one_cell.paragraphs[0].add_run(txt.strip()).bold = True
+                    one_cell.paragraphs[0].add_run(_remove_slash(txt.strip())).bold = True
 
             elif len(md) > 0 and md[0] == '|' and md[-1] == '|':
                 row_cells = table.add_row().cells
 
                 for one_cell, txt in zip(row_cells, md.split('|')[1:-1]):
-                    one_cell.text = txt.strip()
+                    one_cell.text = _remove_slash(txt.strip())
 
             elif md.strip() == '':  # empty line, i.e. end of the paragraph
                 p = None
@@ -107,8 +107,7 @@ def _add_run(p, md):
 
     for one_run, one_value in zip(runs, values):
 
-        # remove slash for \*, \~, \^
-        one_run = sub('\\\([%~\*\^])', '\g<1>', one_run)
+        one_run = _remove_slash(one_run)
 
         if one_run.endswith('\\'):
             LINE_BREAK = True
@@ -140,3 +139,6 @@ def _add_run(p, md):
 
         if LINE_BREAK:
             r.add_break()
+
+def _remove_slash(s):
+    return sub('\\\([%~\*\^])', '\g<1>', s)
