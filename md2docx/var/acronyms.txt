@@ -34,7 +34,7 @@
     "FWHM": "full width at half maximum",
     "GC": "Granger Causality",
     "HFA": "high-frequency activity",
-    "HFB": "high-frequency band",
+    "HFB": "high-frequency broadband",
     "HRF": "hemodynamic response function",
     "ICA": "independent component analysis",
     "iEEG": "intracranial EEG",
