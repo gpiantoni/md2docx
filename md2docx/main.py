@@ -59,6 +59,8 @@ def main():
                         help='do not convert png to tiff, even if it is required by the journal')
     parser.add_argument('--pdf', action='store_true',
                         help='convert to PDF as well (you need libreoffice installed)')
+    parser.add_argument('--skip_inkscape', action='store_true',
+                        help='do not convert svg with inkscape')
     parser.add_argument('--only_md', action='store_true',
                         help='prepare only the intermediate md (for debugging)')
     parser.add_argument('--only_docx', action='store_true',
