@@ -114,8 +114,8 @@ def main():
 
 
 def prepare_bib():
-    parser = ArgumentParser(prog='md2docx',
-                            description='Convert Markdown to Office DOCX')
+    parser = ArgumentParser(prog='prepare_bib',
+                            description='Convert bibtex/mendeley to json library for citeproc.js')
     parser.add_argument('--library', default=str(orig_bib_file),
                         help='bib library to use (default: %(default)s)')
     args = parser.parse_args()
