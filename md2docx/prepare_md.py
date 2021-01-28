@@ -185,7 +185,9 @@ def include_figures(article_dir, s, j, args, is_main):
 
     # ADD INDICES FOR FIGURES AND TABLES
     s, figure_name = _make_index(s, is_main)
-    _svg2png(figure_name, img_dir, out_dir, args)
+    if not args.skip_inkscape:
+        _svg2png(figure_name, img_dir, out_dir, args)
+
     return s
 
 
@@ -416,7 +418,6 @@ def _read_node_output(md, tmp_dir):
     ref_str = ref_str.replace('</i>', '*')
     ref_str = ref_str.replace('&#38;', '&')
 
-
     ref_str = sub('<div class=\"[\w-]+\">', '', ref_str)
     ref_str = sub('</div>', '', ref_str)
     references = [line.strip() for line in ref_str.split('\n') if line.strip()]
@@ -503,9 +504,9 @@ def _get_main_ref(tmp_dir):
         # corner case, when one key is in the text of another key
         review_sub[key] = sub('@\[[0-9a-z.]+\]', '', l)
 
-    # use italics for cross-references (review.md should use *@[X]* then)
+    # use italics for cross-references (review.md should use @[X] and italics is added automatically)
     for key, value in review_sub.items():
-        review_sub[key] = value.replace('\n', '*\n*')
+        review_sub[key] = '*' + value.replace('\n', '*\n*') + '*'
 
     with crossref_json.open('w') as f:
         dump(review_sub, f)
