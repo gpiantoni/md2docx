@@ -504,9 +504,9 @@ def _get_main_ref(tmp_dir):
         # corner case, when one key is in the text of another key
         review_sub[key] = sub('@\[[0-9a-z.]+\]', '', l)
 
-    # use italics for cross-references (review.md should use *@[X]* then)
+    # use italics for cross-references (review.md should use @[X] and italics is added automatically)
     for key, value in review_sub.items():
-        review_sub[key] = value.replace('\n', '*\n*')
+        review_sub[key] = '*' + value.replace('\n', '*\n*') + '*'
 
     with crossref_json.open('w') as f:
         dump(review_sub, f)
