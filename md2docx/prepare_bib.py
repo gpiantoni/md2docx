@@ -134,9 +134,7 @@ def fix_case(name):
 
     The case of the key for citations remains the same (probably all upper case)
     """
-    name = name.strip()
+    names = [n.strip() for n in name.split(' ')]
 
-    if name.isupper():
-        return name.capitalize()
-
-    return name
+    names = [n.capitalize() if n.isupper() else n for n in names]
+    return ' '.join(names)
