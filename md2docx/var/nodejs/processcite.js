@@ -1,6 +1,6 @@
 var path = require('path');
 var fs = require('fs');
-var CSL = require('./citeproc.js').CSL;
+var CSL = require('./citeproc_commonjs.js');
 
 // input files (+ 'locales-en-US.xml')
 workDir = process.argv[2];

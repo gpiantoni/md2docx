@@ -388,24 +388,22 @@ def _process_node(tmp_dir, biblio, args):
     print(' '.join(cmd))
     run(cmd, cwd=str(node_dir))
 
+
 def _read_node_output(md, tmp_dir):
+
+    citations_to_do = tmp_dir / 'citations.json'
     citations_formatted = tmp_dir / 'formattedCitations.json'
     references_formatted = tmp_dir / 'formattedReferences.txt'
 
+    with citations_to_do.open('r') as f:
+        cite_pre = load(f)
+
     with citations_formatted.open('r') as f:
-        citations = load(f)
+        cite_post = load(f)
 
-    citation_i = 0
+    for i_pre, i_post in zip(cite_pre, cite_post):
+        md.replace(i_pre['citationID'], i_post)
 
-    def sub_citations(matchobj):
-        nonlocal citation_i
-
-        x = citations[citation_i]
-        citation_i += 1
-        return x
-
-    md = sub('(\[?@[@\w+0-9' + CITATION_SEPARATOR + ']+\]?)', sub_citations,
-             md)
     md = md.replace(' <sup>', '^')
     md = md.replace('</sup>', '^')
 
