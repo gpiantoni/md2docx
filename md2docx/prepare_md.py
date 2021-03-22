@@ -367,6 +367,15 @@ def _prepare_node_input(md, citations_to_do):
                  'properties': {}}
         j_citations.append(j_cit)
 
+    # remove duplicate keys (because citeproc.js cannot handle them)
+    citationsID = []
+    all_cit = []
+    for cit in j_citations:
+        if cit['citationID'] not in citationsID:
+            citationsID.append(cit['citationID'])
+            all_cit.append(cit)
+    j_citations = all_cit
+
     with citations_to_do.open('w') as f:
         dump(j_citations, f, indent=2, sort_keys=True)
 
@@ -402,7 +411,7 @@ def _read_node_output(md, tmp_dir):
         cite_post = load(f)
 
     for i_pre, i_post in zip(cite_pre, cite_post):
-        md.replace(i_pre['citationID'], i_post)
+        md = md.replace(i_pre['citationID'], i_post)
 
     md = md.replace(' <sup>', '^')
     md = md.replace('</sup>', '^')
@@ -426,7 +435,7 @@ def _read_node_output(md, tmp_dir):
     return md.replace(BIBLIO_TITLE, md_biblio)
 
 
-def _make_acronyms(l, acronym_file):
+def _make_acronyms(line, acronym_file):
     """change all the acronyms.
 
     Parameters
@@ -447,26 +456,26 @@ def _make_acronyms(l, acronym_file):
     full_acronym = deepcopy(acronym)
 
     while True:
-        m = search('\[\$[a-zA-Z]+\]', l)
+        m = search('\[\$[a-zA-Z]+\]', line)
         if m is None:
             break
         key = m.group()[2:-1]
-        l0 = l[:m.start()]
-        l1 = l[m.end():]
+        l0 = line[:m.start()]
+        l1 = line[m.end():]
         if acronym[key] is not None:  # first time
-            l = l0 + acronym[key] + ' (' + key + ')' + l1
+            line = l0 + acronym[key] + ' (' + key + ')' + l1
             acronym[key] = None
         else:
-            l = l0 + key + l1
+            line = l0 + key + l1
 
     # ADD ACRONYMS at the end
     s = []
     for key in sorted(acronym, key=lambda x: x.lower()):
         if acronym[key] is None:
             s.append(key + ': ' + full_acronym[key])
-    l = l.replace('[ACRONYMS]', '; '.join(s))
+    line = line.replace('[ACRONYMS]', '; '.join(s))
 
-    return l
+    return line
 
 
 def _get_main_ref(tmp_dir):
@@ -496,11 +505,11 @@ def _get_main_ref(tmp_dir):
     # we create a dict of the key and complete values.
     review_sub = {}
     for key in set(findall('@\[[0-9a-z.]+\]', main_s)):
-        l = ' [...]\n'.join(main_s.split(key)[1::2])
+        line = ' [...]\n'.join(main_s.split(key)[1::2])
         # remove italics already in the string (but not boldface)
-        l = sub('\*(.+?)\*', '\g<1>', l)
+        line = sub('\*(.+?)\*', '\g<1>', line)
         # corner case, when one key is in the text of another key
-        review_sub[key] = sub('@\[[0-9a-z.]+\]', '', l)
+        review_sub[key] = sub('@\[[0-9a-z.]+\]', '', line)
 
     # use italics for cross-references (review.md should use @[X] and italics is added automatically)
     for key, value in review_sub.items():
