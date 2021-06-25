@@ -3,6 +3,7 @@
     "ADHD": "attention deficit hyperactivity disorder",
     "ANOVA": "analysis of variance",
     "BCG": "ballistocardiogram",
+    "BCI": "brain-computer interface",
     "BEM": "boundary element model",
     "BOLD": "blood oxygenation level dependent",
     "BRAC": "Basic Rest-Activity Cycle", 
